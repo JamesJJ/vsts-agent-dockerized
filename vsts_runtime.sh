@@ -5,6 +5,8 @@
 [ -z "${AGENT_POOL}" ]   && exit 3
 [ -z "${AGENT_NAME}" ]   && \
     export AGENT_NAME="${AGENT_POOL:-x}-$(date '+%Y%m%d')-$(hostname -s)"
+[ -z "${VSTS_URL}" ]   && \
+    export VSTS_URL="https://dev.azure.com/${VSTS_ACCOUNT}"
 
 if [ ! -f config.sh ] || [ ! -f run.sh ]; then
     echo "* Use this as a base image in your own Dockerfile e.g. FROM jamesjj/vsts-agent-dockerized" 1>&2
@@ -33,7 +35,7 @@ chown -R "${VSTS_LINUX_USER}" "${VSTS_BASE_DIR}/tmp/_work"
 
 sudo -u "${VSTS_LINUX_USER}" bash ./config.sh \
     --unattended  \
-    --url "https://${VSTS_ACCOUNT}.visualstudio.com" \
+    --url "${VSTS_URL}" \
     --auth pat \
     --token "${PAT_TOKEN}" \
     --pool "${AGENT_POOL}" \
