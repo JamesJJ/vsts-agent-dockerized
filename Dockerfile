@@ -2,7 +2,7 @@ FROM centos:7
 
 ARG VSTS_BASE_DIR="/opt/vsts"
 ARG VSTS_LINUX_USER="vsts"
-ARG VSTS_VERSION="2.134.2"
+ARG VSTS_VERSION="2.151.0"
 ARG TINI_VERSION="v0.18.0"
 
 ENV VSTS_BASE_DIR="${VSTS_BASE_DIR}"
@@ -11,8 +11,7 @@ ENV VSTS_VERSION="${VSTS_VERSION}"
 
 # General Update
 RUN \
-yum update && \
-yum -y upgrade && \
+yum -y --obsoletes update && \
 yum -y install sudo
 
 ## Install dependencies including: Git 2.x
