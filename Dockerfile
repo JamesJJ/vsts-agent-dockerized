@@ -2,7 +2,7 @@ FROM centos:7
 
 ARG VSTS_BASE_DIR="/opt/vsts"
 ARG VSTS_LINUX_USER="vsts"
-ARG VSTS_VERSION="2.151.0"
+ARG VSTS_VERSION="2.154.3"
 ARG TINI_VERSION="v0.18.0"
 
 ENV VSTS_BASE_DIR="${VSTS_BASE_DIR}"
@@ -39,7 +39,7 @@ chown -R "${VSTS_LINUX_USER}" "${VSTS_BASE_DIR}"
 
 ## Install VSTS (on-build)
 ONBUILD RUN \
-curl -sSf -o /opt/vsts/agent/agent.tar.gz \
+curl --progress-bar -sSf -o /opt/vsts/agent/agent.tar.gz \
   "https://vstsagentpackage.azureedge.net/agent/${VSTS_VERSION}/vsts-agent-linux-x64-${VSTS_VERSION}.tar.gz" && \
 cd "${VSTS_BASE_DIR}/agent" && \
 tar -xzf agent.tar.gz && \
