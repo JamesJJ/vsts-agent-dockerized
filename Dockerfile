@@ -12,7 +12,7 @@ ENV VSTS_VERSION="${VSTS_VERSION}"
 # General Update
 RUN \
 yum -y --obsoletes update && \
-yum -y install sudo
+yum -y install sudo bsdtar
 
 ## Install dependencies including: Git 2.x
 
@@ -42,7 +42,7 @@ ONBUILD RUN \
 curl --progress-bar -sSf -o /opt/vsts/agent/agent.tar.gz \
   "https://vstsagentpackage.azureedge.net/agent/${VSTS_VERSION}/vsts-agent-linux-x64-${VSTS_VERSION}.tar.gz" && \
 cd "${VSTS_BASE_DIR}/agent" && \
-tar -xzf agent.tar.gz && \
+bsdtar -xzf agent.tar.gz && \
 chown -R "${VSTS_LINUX_USER}" "${VSTS_BASE_DIR}" && \
 ln -s ../bin/vsts_runtime.sh
 
