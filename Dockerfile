@@ -20,11 +20,11 @@ yum -y install sudo bsdtar
 
 RUN \
 yum install -y centos-release-scl libunwind.x86_64 icu && \
-yum install -y sclo-git25-git.x86_64 && \
-echo 'source scl_source enable sclo-git25' > /etc/profile.d/git25.sh && \
-chmod 644 /etc/profile.d/git25.sh && \
-source scl_source enable sclo-git25 
-
+yum install -y rh-git29.x86_64 && \
+echo 'source scl_source enable rh-git29' > /etc/profile.d/git29.sh && \
+chmod 644 /etc/profile.d/git29.sh && \
+source scl_source enable rh-git29 && \
+git --version
 
 # Better to run this under an init: Add Tini
 RUN \
