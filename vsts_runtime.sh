@@ -23,11 +23,11 @@ trap exit_script SIGINT SIGTERM
 
 [ -f "${VSTS_BASE_DIR}/bin/local.sh" ] && source "${VSTS_BASE_DIR}/bin/local.sh"
 
-source scl_source enable sclo-git25 && \
+source scl_source enable rh-git29 && \
     echo "Defaults secure_path=\"${PATH}\"" | tee /etc/sudoers.d/92-secure-path
 
 # Source git and set Agent PATH
-sudo -u "${VSTS_LINUX_USER}" bash -c 'source scl_source enable sclo-git25 && echo "$PATH" | tee .path'
+sudo -u "${VSTS_LINUX_USER}" bash -c 'source scl_source enable rh-git29 && echo "$PATH" | tee .path'
 
 mkdir -p "${VSTS_BASE_DIR}/tmp/_work"
 
