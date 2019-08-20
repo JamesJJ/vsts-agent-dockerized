@@ -24,7 +24,8 @@ trap exit_script SIGINT SIGTERM
 [ -f "${VSTS_BASE_DIR}/bin/local.sh" ] && source "${VSTS_BASE_DIR}/bin/local.sh"
 
 source scl_source enable rh-git29 && \
-    echo "Defaults secure_path=\"${PATH}\"" | tee /etc/sudoers.d/92-secure-path
+    echo "Defaults secure_path=\"${PATH}\"" | tee /etc/sudoers.d/92-secure-path && \
+    echo 'Defaults env_keep += LD_LIBRARY_PATH' | tee /etc/sudoers.d/92-ld-library-path
 
 # Source git and set Agent PATH
 sudo -u "${VSTS_LINUX_USER}" bash -c 'source scl_source enable rh-git29 && echo "$PATH" | tee .path'
