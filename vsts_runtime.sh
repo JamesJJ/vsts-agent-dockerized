@@ -45,3 +45,5 @@ sudo -u "${VSTS_LINUX_USER}" bash ./config.sh \
   && \
   sudo -u "${VSTS_LINUX_USER}" bash ./run.sh
 
+sudo -u "${VSTS_LINUX_USER}" bash ./config.sh remove  --auth pat --token "${PAT_TOKEN}"
+
