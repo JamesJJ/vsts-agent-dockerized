@@ -53,5 +53,5 @@ WORKDIR "${VSTS_BASE_DIR}"
 
 VOLUME "${VSTS_BASE_DIR}/tmp"
 
-CMD [ "bash", "start.sh" ]
+CMD [ "bash", "--login", "start.sh" ]
 
