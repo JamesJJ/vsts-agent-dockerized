@@ -1,0 +1,57 @@
+FROM centos:7
+
+ARG VSTS_BASE_DIR="/azp"
+ARG VSTS_LINUX_USER="vsts"
+ARG TINI_VERSION="v0.18.0"
+
+ENV VSTS_BASE_DIR="${VSTS_BASE_DIR}"
+ENV VSTS_LINUX_USER="${VSTS_LINUX_USER}"
+ENV VSTS_VERSION="${VSTS_VERSION}"
+
+# ENV agent.disableupdate=true
+
+# General Update
+RUN \
+yum -y --obsoletes update && \
+yum -y install sudo bsdtar
+
+## Install dependencies including: Git 2.x
+
+RUN \
+yum install -y openssl-libs libcurl krb5-libs zlib libicu wget && \
+rpm -ivh http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
+yum install -y jq && \
+wget -P /etc/yum.repos.d/ https://packages.efficios.com/repo.files/EfficiOS-RHEL7-x86-64.repo && \
+rpmkeys --import https://packages.efficios.com/rhel/repo.key && \
+yum updateinfo && \
+yum install -y lttng-ust && \
+yum install -y centos-release-scl libunwind.x86_64 including && \
+yum install -y rh-git29.x86_64 && \
+echo 'source scl_source enable rh-git29' > /etc/profile.d/git29.sh && \
+chmod 644 /etc/profile.d/git29.sh && \
+source scl_source enable rh-git29 && \
+git --version
+
+# Better to run this under an init: Add Tini
+RUN \
+curl -sSfL -o /opt/tini https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini-static && \
+chmod 755 /opt/tini
+
+## Install VSTS (prepare)
+RUN \
+useradd -u 1001 -c VSTS -m -U "${VSTS_LINUX_USER}" && \
+mkdir -p "${VSTS_BASE_DIR}/bin" && \
+mkdir -p "${VSTS_BASE_DIR}/tmp/_work" && \
+chown -R "${VSTS_LINUX_USER}" "${VSTS_BASE_DIR}"
+
+## Install VSTS download script
+COPY start.sh "${VSTS_BASE_DIR}/"
+
+ENTRYPOINT ["/opt/tini", "-g", "--"]
+
+WORKDIR "${VSTS_BASE_DIR}"
+
+VOLUME "${VSTS_BASE_DIR}/tmp"
+
+CMD [ "bash", "start.sh" ]
+
