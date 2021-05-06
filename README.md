@@ -1,8 +1,5 @@
 # VSTS
 
-[![Docker Automated build](https://img.shields.io/docker/automated/jamesjj/vsts-agent-dockerized.svg)](https://hub.docker.com/r/jamesjj/vsts-agent-dockerized/)
-[![Docker Automated build](https://img.shields.io/docker/build/jamesjj/vsts-agent-dockerized.svg)](https://hub.docker.com/r/jamesjj/vsts-agent-dockerized/)
-
 Microsoft Visual Studio Team Services (VSTS) Linux Agent image, based on Centos 7.
 
 ### Note:
